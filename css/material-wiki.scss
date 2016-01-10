@@ -1,0 +1,787 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin:0;
+	padding:0;
+	border:0;
+	outline:0;
+	line-height:1em;
+	vertical-align:baseline;
+	list-style:none;
+}
+
+
+@font-face {
+    font-family: 'MW_RobotoLtRegular';
+    src: url('chrome-extension://__MSG_@@extension_id__/fonts/Roboto-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MW_RobotoMedium';
+    src: url('chrome-extension://__MSG_@@extension_id__/fonts/Roboto-Medium.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MW_RobotoBold';
+    src: url('chrome-extension://__MSG_@@extension_id__/fonts/Roboto-Bold.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+input,
+select {
+	outline:none;
+}
+
+// Varisables
+$main: 			MW_RobotoLtRegular;
+$mainmedium: 	MW_RobotoMedium;
+$mainbold:		MW_RobotoBold;
+$serif:			Georgia, Times, 'Times New Roman', serif;
+$dark-grey:		#333333;
+$light-blue:	#03a9f4;
+$dark-blue:		#0077db;
+$dark:			#091a24;
+$light:			#ffffff;
+$lighter:		#fafafa;
+$orange:		#fab13f;
+$cream:			#f6edc9;
+$light-grey:	#f5f5f5;
+$line:			#e0e0e0;
+$round:			3px;
+$trans:			all .5s ease-in-out;
+
+body {
+	background: $lighter !important;
+	font-size: 1.2em !important;
+	font-family: $main !important;
+	color: $dark-grey !important;
+	height: 100% !important;
+}
+
+::selection {
+    background: $dark-grey;
+	color: #fff;
+}
+
+#firstHeading { // Offset for named anchor
+	padding-top: 170px !important;
+    margin-top: -170px !important;
+}
+
+p {
+	line-height: 1.4em !important;
+	margin: 25px 0 !important;
+	color: $dark-grey !important;
+}
+
+b {
+	font-weight: normal !important;
+	font-family: $mainbold !important;
+}
+
+a {
+	color: $light-blue !important;
+	
+	&:hover {
+		text-decoration: underline !important;
+	}
+}
+
+li {
+	color: $dark-grey !important;
+	line-height: 1.4em !important;
+}
+
+b, strong, th {
+	font-family: $mainmedium !important;
+	font-weight: normal !important;
+	color: $dark-grey !important;
+}
+
+a:hover {
+	text-decoration: none !important;
+}
+
+
+#p-logo {
+	
+	top: 0 !important;
+	left: 0 !important;
+	position: fixed !important;
+	height: 70px !important;
+	width: 280px !important;
+	padding: 20px 0 0 20px !important;
+	background: $light;
+	z-index: 999 !important;
+	
+	a {
+		background: $light-blue url("chrome-extension://__MSG_@@extension_id__/images/mw-logo.png") no-repeat center !important;
+		background-size: 55% !important;
+		display: block !important;
+		width: 50px !important;
+		height: 50px !important;
+		border-radius: 100% !important;
+		
+		&::before {
+			content: "Material Wiki";
+			text-transform: uppercase;
+			position: absolute;
+			top: 37px !important;
+			left: 80px;
+			font-size: .8em;
+			display: block;
+			top: 15px;
+		}
+	}
+}
+
+////////////////////////////////////////////////
+// TODO later. Hide for now to reduce clutter.
+.x {
+	display: none !important;
+}
+
+// Side panel
+#mw-panel {
+    top: 0 !important;
+    padding-top: 0 !important;
+    width: 15em !important;
+    left: 0;
+	background: #14242b !important;
+}
+
+// Hidden elements
+#siteSub,
+.mw-editsection,
+.tocnumber,
+#contentSub,
+#mw-head-base,
+#p-views,
+#mw-head ul, 
+#mw-head #p-namespaces,
+.noprint,
+#coordinates,
+.searchButton  {
+	display: none !important;
+	height: 0 !important;
+}
+
+
+
+#mw-head {
+	position: fixed !important;
+	top: 0 !important;
+	left: 0 !important;
+	background: #f5f5f5 !important;
+	height: 89px !important;
+	z-index: 998 !important;
+}
+
+#right-navigation {
+	margin: 0 !important;
+}
+
+// Search
+#p-search {
+	
+	margin: 0 !important;
+	float: none !important;
+	position: absolute;
+	top: 0;
+	right: -290px;
+	width: 370px !important;
+	transition: $trans;
+	
+	&:hover {
+		right: 0;
+	}
+	
+	h3 label {
+		display: none;
+	}
+	
+	#simpleSearch {
+		border: none !important;
+		background: none !important;
+		border-left: solid 1px $line !important;
+		margin: 0 !important;
+		padding: 28px 35px 0 85px !important;
+		width: 20vw;
+		min-width: auto !important;
+		max-width: auto !important;
+		height: 89px !important;
+		box-sizing: border-box !important;
+		
+		&::before {
+			content: "";
+			display: block;
+			background: url("chrome-extension://__MSG_@@extension_id__/images/search.png") no-repeat !important;
+			background-size: 20px !important;
+			width: 20px;
+			height: 20px;
+			position: absolute;
+			left: 30px;
+			top: 35px;
+		}
+	}
+	
+	form {
+		margin: 0 !important;
+	}
+	
+	#searchInput {
+		//border: none !important;
+		border-bottom: solid 1px $line;
+		padding: 5px 0 !important;
+		font-family: $main !important;
+		font-size: 1em !important;
+		height: auto !important;
+		font-family: $main !important;
+	}
+}
+
+// Main body container 
+.mw-body-content {
+}
+
+// Main body
+.mw-body {
+	margin-left: 300px !important;
+	margin-top: 200px !important;
+	padding: 0 10% !important;
+	border:none !important;
+	background: $lighter !important;
+	
+	h1, h2, h3, h4, h5, h6 {
+		border: none !important;
+		font-family: $mainmedium !important;
+		color: $dark !important;
+		font-weight: normal !important;
+	}
+	
+	h1 {
+		font-size: 2.5em !important;
+		line-height: 1.1em !important;
+		font-family: $main !important;
+		color: $light-blue !important;
+		width: 100%;
+		box-sizing: border-box !important;
+		margin: 100px 0  50px 0 !important;
+		
+		i {
+			font-style: normal !important;
+			color: $light-blue !important;
+		}
+	}
+
+	h2 {
+		font-size: 3em !important;
+	}
+	
+	h2 {
+		font-size: 2em !important;
+		margin-bottom: 25px !important;
+		color: $light-blue !important;
+	}
+	
+	h3 {
+		font-size: 1.5em !important;
+		margin: 0 0 25px 0 !important;
+		padding: 0 !important;
+	}
+	
+	p {
+		margin: 0 0 30px 0 !important;
+		font-family: $main !important;
+		line-height: 1.5em !important;
+	}
+	
+	b {
+		font-family: $mainbold !important;
+	}
+	
+	ul {
+		margin: 35px 0 35px 35px !important;
+		
+		li {
+			list-style: disc;
+		}
+	}
+	
+	blockquote {
+		font-family: $serif;
+		font-style: italic;
+		padding: 30px !important;
+		margin: 25px 55px 25px 55px !important;
+		border-left: solid 3px $orange;
+		
+		p {
+			margin: 0 !important;
+		}
+	}
+	
+	.quotebox {
+		
+		margin: 25px 0 20px 20px !important;
+		border: none !important;
+		padding: 20px !important;
+		background: $light-grey !important;
+		width: 40% !important;
+		border-radius: $round;
+		
+		p {
+			margin: 0 0 25px 0 !important;
+			font-family: $serif;
+			font-style: italic;
+			line-height: 1.4em;
+		}
+		
+		a {
+			color: $light-blue;
+		}
+	}
+	
+	.tright {
+		
+		margin: 0 0 30px 30px !important;
+		border: none !important;
+		padding: 20px !important;
+		background: $light-grey !important;
+		max-width: 25% !important;
+		border-radius: $round;
+		
+		.thumbinner {
+			padding: 0 !important;
+			margin: 0 !important;
+			width: 100% !important;
+			border: none !important;
+			background: none !important;
+		}
+		
+		p {
+			margin: 0 0 25px !important;
+			font-family: $serif;
+			font-style: italic;
+			line-height: 1.4em;
+		}
+		
+		a {
+			color: $light-blue;
+		}
+		
+		img {
+			border: none !important;
+			width: 100% !important;
+			height: auto !important;
+			margin: 0 0 15px 0 !important;
+			display: block;
+			border-radius: 2px;
+		}
+	}
+	
+	
+	.wikitable {
+		
+		font-size: 90%;
+		
+		th {
+			background: $light-grey;
+		}
+		
+		th, td {
+			border: solid 1px #ccc;
+			padding: 10px !important;
+		}
+		
+	}
+	
+	.hatnote {
+		padding: 0;
+	}
+	
+	.metadata {
+		margin: 25px auto !important;
+		
+		&.ambox {
+			border: none !important;
+			background: $light-grey !important;
+			border-left: solid 3px $orange !important;
+		}
+	}
+	
+	.reflist {
+		ol {
+			margin: 0 0 0 30px !important;
+		}
+		
+		li {
+			margin: 10px 0;
+			padding: 0 25px 0 0;
+			box-sizing: border-box;
+			list-style: decimal !important;
+		}
+	}
+	
+	.navbox {
+		border: none;
+		background: none !important;
+		padding: 0 !important;
+		margin: 0 0 15px 0 !important;
+	}
+	
+	.navbox th, .navbox-title {
+		background: $light-grey !important;
+		padding: 10px 15px;
+	}
+	
+	.navbox-abovebelow {
+		background: $light-grey !important;
+	}
+
+}
+
+
+// Content info box
+.infobox {
+	border: none !important;
+	margin: 0 0 35px 35px !important;
+	padding: 20px !important;
+	background: $light-grey !important;
+	color: $dark-grey !important;
+	border-radius: $round;
+	
+	caption {
+		margin: 0 0 15px 0;
+		font-weight: normal !important;
+		font-family: $mainbold !important;
+	}
+	
+	small {
+		text-align: center !important;
+		display: block !important;
+		width: 100% !important;
+		line-height: 1.2em !important;
+		margin: 15px 0 !important;
+	}
+	
+	th, td {
+		width: 50% !important;
+		display: inline-block !important;
+	}
+	
+	th {
+		float: left !important;
+		padding: 3px 0 0 0 !important;
+	}
+	
+	tr {
+		display: block;
+		margin: 15px 0 !important;
+		
+		&:nth-child(1) {
+			margin: 0 !important;
+		}
+		
+		&:nth-child(2) {
+			margin: 0 !important;
+		}
+	}
+	
+	td, li {
+		line-height: 1.4em !important;
+	}
+	
+	ul {
+		margin: 0 !important;
+		li {
+			list-style: none !important;
+		}
+	}
+	
+	br {
+		margin: 3px 0 !important;
+		display: block !important;
+	}
+	
+	.navbox-title {
+		display: none !important;
+	}
+	
+	.image img {
+		width: 285px !important;
+		height: auto !important;
+		margin: 0 0 20px 0 !important;
+		border-radius: 2px;
+	}
+	
+	a {
+		color: $light-blue !important;
+		
+		&:hover {
+			text-decoration: underline !important;
+		}
+	}
+	
+	.url {
+		text-align: left !important;
+	}
+}
+
+.portal {
+	background: none !important;
+	display: none;
+	
+	ul li {
+	}
+}
+
+#mw-page-base {
+	background: none !important;
+}
+
+// Left table of contents for the actual wiki
+.toc {
+	position: fixed;
+	width: 300px !important;
+	box-sizing: border-box !important;
+	top: 84px;
+	left: 0;
+	border: none !important;
+	background: $light !important;
+	padding: 0 !important;
+	height: 100% !important;
+	display: block !important;
+	font-size: 100% !important;
+	//box-shadow: 0px 0px 15px 0px $dark;
+	
+
+	.toctoggle,
+	#toctitle {
+		display: none !important;
+	}
+	
+	ul {
+		overflow-x: hidden !important;
+		overflow-y: auto !important;
+		height: calc(100% - 130px) !important;
+		margin: 0 !important;
+		
+		&::-webkit-scrollbar-track {
+			//-webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+			background-color: #f3f3f3;
+		}
+
+		&::-webkit-scrollbar {
+			width: 7px;
+			background-color: $lighter;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background-color: $line;
+		}
+	}
+	
+	li ul {
+		padding: 0 !important;
+		margin: 0 !important;
+	}
+	
+	.toclevel-1 {
+		
+		padding: 15px 20px 0 20px !important;
+	
+		&:nth-child(2n+2) {
+		  //background: #2a3541 !important;
+		}
+				
+		.toctext {
+			font-size: 1em !important;
+			font-family: $mainmedium !important;
+			color: $dark !important;
+			
+			&.selected {
+				color: $light-blue !important;
+			}
+			
+		}
+		
+		ul {
+			
+			padding: 0 !important;	
+			
+			.toctext {
+				font-size: .85em !important;
+				color: #8f8f8f !important;
+				font-weight: $mainmedium !important;
+				
+				&:hover {
+					color: $dark !important;
+				}
+			}
+		}
+		
+		a {
+			display: block !important;
+			padding: 2px 0 !important;
+			
+			&:focus {
+				text-decoration: none !important;
+			}
+		}
+		
+	}
+	
+	a {
+		text-decoration: none;
+		
+		&:hover {
+		}
+	}
+	
+	.toclevel-2 {
+		padding: 0 0 0 25px;
+		margin: 5px 0 0 0 !important;
+		
+		a {
+			display: block !important;
+			line-height: 1.2em !important;
+			padding: 3px 0 !important;
+		}
+		
+		.selected .toctext {
+			color: $light-blue !important;
+		}
+	}
+}
+
+
+// Homepage
+#mp-topbanner {
+	text-align: left !important;
+	border: none !important;
+	margin:0 0 25px 0 !important;
+	
+	&::before {
+		content: "Wikipedia";
+		display: block;
+		font-size: 5em;
+		color: $dark-grey;
+	}
+	
+	td {
+		text-align: left !important;
+		width: 33.33333% !important;
+	}
+	
+	td:first-child {
+		display: none !important;
+	}
+}
+
+#mp-upper,
+#mp-middle,
+#mp-lower {
+	margin: 0 0 20px 0 !important;
+	
+	h2 {
+		margin: 0 0 25px !important;
+	}
+	
+	table {
+		background: $light !important;
+		padding: 30px !important;
+	}
+	
+	td {
+		border: none !important;
+		vertical-align: top !important;
+		margin: 0 !important;
+	}
+	
+	.MainPageBG {
+		width: 50%;
+		background: none !important;
+	}
+	
+	#mp-tfa-h2,
+	#mp-itn-h2,
+	#mp-dyk-h2,
+	#mp-otd-h2,
+	#mp-tfl-h2,
+	#mp-tfp-h2 {
+		background: none !important;
+	}
+	
+	.thumbinner,
+	#mp-tfa-img {
+		border: none !important;
+		background: $lighter !important;
+		padding: 15px !important;
+		margin: 0 0 20px 20px !important;
+		text-align: left !important;
+		float: right !important;
+		font-size: 70% !important;
+		border-radius: $round !important;
+	}
+
+}
+
+#mp-lower {
+	img {
+		margin: 0 20px 0 0;
+	}
+}
+
+
+
+
+.catlinks {
+	background: none !important;
+	border: none !important;
+	
+	ul {
+		display: block !important;
+		clear: both !important;
+		margin: 15px 0 !important;
+	}
+	
+	li {
+		border: none !important;
+		margin: 0 5px 5px 0 !important;
+		padding: 0 !important;
+		
+		a {
+			padding: 3px 5px !important;
+			background: $light-blue !important;
+			display: inline-block !important;
+			color: $light !important;
+			font-size: .8em !important;
+		}
+	}
+	
+	
+}
+
+#footer {
+	margin-left: 300px !important;
+	padding: 50px 10% !important;
+	
+	ul {
+		margin: 0 !important;
+	}
+}

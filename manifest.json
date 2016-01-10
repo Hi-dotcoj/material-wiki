@@ -1,0 +1,37 @@
+{
+	"manifest_version": 2,
+	"name": "Material Wiki",
+	"web_accessible_resources": [ "*.png", "*.ttf" ],
+
+	"icons": {
+		"16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
+	},
+
+	"content_scripts": [
+    {
+      
+	  "matches": [
+		"http://en.wikipedia.org/*",
+		"https://en.wikipedia.org/*",
+
+		"http://wikipedia.org/*",
+		"https://wikipedia.org/*"
+		],
+      
+	  "css":						["css/material-wiki.css"],
+	  "js":							["js/jquery.js", "js/material-wiki.js", "js/jquery.cookie.js", "js/scroller.js"]
+	  
+    }
+],
+
+	"description": "Wikipedia - modernised",
+	"version": "0.1",
+	"author": "Michael Ott",
+	"homepage_url": "http://michaelott.id.au",
+	"browser_action": {
+	"default_icon": "icon.png",
+	"default_popup": "settings.html"
+  }
+}
